@@ -1,4 +1,11 @@
-# HBAR Etching Process
+# HBAR Etching Process (AlN and Mo)
+
+### Table of Content
+- [KOH Etching: KOH and AZ 400K](#koh-based-koh-az400k-and-h2o2-nanotalo)
+- [NaOH Etching: AZ 351B](#naoh-based-az-531b-and-h2o2-micronova)
+- [TMAH Etching: AZ 726MIF](#tmah-based-az-726-mif-micronova)
+- [Appendix: terms](#appendix)
+
 ## KOH based: KOH, AZ400K and H2O2 (Nanotalo)
 |Chemical|Concentration|Etched Material|Etch Rate|Quick Recipe (approx 100ml)|
 |--------|-------------|---------------|---------|-------------------|
@@ -7,7 +14,7 @@
 |H2O2|H2O2 5%v/v DIW|Mo|25-30nm/min at RT|5ml H2O2 in 100ml DIW|
 
 ### I) First AlN Etching (KOH + AZ400K): Thin film removal
-1. Spin coat chip with A9 PMMA, soft bake (**170°C for 90sec**). Spin Espacer and bake (**80°C for 60sec**). Pattern areas where AlN *and* Mo will be etched away. Rinse Espacer in water and develop with MIBK:IPA 1:3.
+1. Spin coat chip with A9 PMMA, soft bake (**170°C for 90sec**). Spin Espacer and bake (**80°C for 60sec**). Pattern areas where AlN *and* Mo will be etched away. **Rinse Espacer** in water and develop with MIBK:IPA 1:3, 30sec.
 2. 30s-2min O2 dry etch for removal of residual resist.
 3. Hard bake resist (**170°C for 10min**).
 4. Put the chip gently into KOH solution for **60-80sec**. Agitate a little bit every once in a while.
@@ -56,6 +63,11 @@
 3. Neutralize.
 
 ## TMAH based: AZ 726 MIF (Micronova)
+|Chemical|Concentration|Etched Material|Etch Rate|Quick Recipe (approx 100ml)|
+|--------|-------------|---------------|---------|-------------------|
+|AZ 351B|N/A|AlN|?? nm/min at RT|N/A|
+|H2O2|H2O2 5%v/v DIW|Mo|25-30nm/min at RT|5ml H2O2 in 100ml DIW|
+
 Not yet developped
 
 ## Dry Etching BCl2, Cl3, Ar (Micronova)
