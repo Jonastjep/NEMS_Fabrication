@@ -7,11 +7,11 @@
 - [Appendix: terms](#appendix)
 
 ## KOH based: KOH, AZ400K and H2O2 (Nanotalo)
-|Chemical|Concentration|Etched Material|Etch Rate|Quick Recipe (approx 100ml)|
-|--------|-------------|---------------|---------|-------------------|
-|KOH|KOH 15 wt% DIW|AlN|315 nm/min at RT|20g pure KOH in 100ml DIW|
-|AZ400K|N/A|AlN|42 nm/min at RT|N/A|
-|H2O2|H2O2 5%v/v DIW|Mo|25-30nm/min at RT|5ml H2O2 in 100ml DIW|
+|Chemical|Concentration|Temperature|Etched Material|Etch Rate|Quick Recipe (approx 100ml)|
+|--------|-------------|-----------|---------------|---------|-------------------|
+|KOH|KOH 15 wt% DIW|RT|AlN|315 nm/min at RT|20g pure KOH in 100ml DIW|
+|AZ400K|N/A|RT|AlN|42 nm/min at RT|N/A|
+|H2O2|H2O2 5%v/v DIW|RT|Mo|25-30nm/min at RT|5ml H2O2 in 100ml DIW|
 
 ### I) First AlN Etching (KOH + AZ400K): Thin film removal
 1. Spin coat chip with A9 PMMA, soft bake (**170°C for 90sec**). Spin Espacer and bake (**80°C for 60sec**). Pattern areas where AlN *and* Mo will be etched away. **Rinse Espacer** in water and develop with MIBK:IPA 1:3, 30sec.
@@ -36,9 +36,9 @@
 3. Neutralize.
 
 ## NaOH based: AZ 531B and H2O2 (Micronova)
-|Chemical|Concentration|Etched Material|Etch Rate|Quick Recipe (approx 100ml)|
-|--------|-------------|---------------|---------|-------------------|
-|AZ 351B|N/A|AlN|?? nm/min at RT|N/A|
+|Chemical|Concentration|Temperature|Etched Material|Etch Rate|Quick Recipe (approx 100ml)|
+|--------|-------------|-----------|---------------|---------|-------------------|
+|AZ 351B|N/A|RT|AlN|?? nm/min at RT|N/A|
 |H2O2|H2O2 5%v/v DIW|Mo|25-30nm/min at RT|5ml H2O2 in 100ml DIW|
 
 ### I) First AlN Etching (AZ 351B): Thin film removal
@@ -62,10 +62,18 @@
 2. Add sample to beaker and leave to etch for **45-60min**.
 3. Neutralize.
 
+## TMAH based: TMAH 25% (Micronova)
+|Chemical|Concentration|Temperature|Etched Material|Etch Rate|Quick Recipe (approx 100ml)|
+|--------|-------------|-----------|---------------|---------|-------------------|
+|TMAH|25%|RT|AlN|?? nm/min at RT|N/A|
+|H2O2|H2O2 5%v/v DIW|Mo|25-30nm/min at RT|5ml H2O2 in 100ml DIW|
+
+80C for 30sec
+
 ## TMAH based: AZ 726 MIF (Micronova)
-|Chemical|Concentration|Etched Material|Etch Rate|Quick Recipe (approx 100ml)|
-|--------|-------------|---------------|---------|-------------------|
-|AZ 351B|N/A|AlN|?? nm/min at RT|N/A|
+|Chemical|Concentration|Temperature|Etched Material|Etch Rate|Quick Recipe (approx 100ml)|
+|--------|-------------|-----------|---------------|---------|-------------------|
+|AZ 351B|N/A|RT|AlN|?? nm/min at RT|N/A|
 |H2O2|H2O2 5%v/v DIW|Mo|25-30nm/min at RT|5ml H2O2 in 100ml DIW|
 
 Not yet developped

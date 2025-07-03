@@ -18,7 +18,7 @@ In this library, the standard layer structure is as follows:
 '''
 
 @gf.cell(check_instances=False)
-def semi_circular_antenna(radius: float = 100, spacing: float = 30, layer: tuple = (2,0), layer1: tuple = (3,0), portwidth: float = 1, with_padding: bool = False) -> gf.Component:
+def semi_circular_antenna(radius: float = 100, spacing: float = 30, layer: tuple = (2,0), layer1: tuple = (3,0), portwidth: float = 1, with_padding: bool = False, padding_overlap: float = 0) -> gf.Component:
  
     C = gf.components.circle(radius = radius, layer=layer)
     R = gf.components.rectangle(size=(radius,2*radius), layer=layer)
@@ -30,13 +30,17 @@ def semi_circular_antenna(radius: float = 100, spacing: float = 30, layer: tuple
     if with_padding:
         R2 = temp << R
         R2.movey(-radius)
-        R2.movex(-0.05*radius)
+        R2.movex(-0.08*radius)
+        R3 = temp << R
+        R3.movey(-radius)
+        R3.movex(-0.08*radius+padding_overlap)
 
     antenna = gf.boolean(A=C1,B=R1,operation='not', layer=layer)
 
     if with_padding:
         padding = gf.boolean(A=antenna,B=R2,operation='and', layer=layer1,layer1=layer,layer2=layer)
-        antenna = gf.boolean(A=antenna,B=padding,operation='not', layer=layer,layer1=layer,layer2=layer1)
+        padding_overlap = gf.boolean(A=antenna,B=R3,operation='and', layer=layer1,layer1=layer,layer2=layer)
+        antenna = gf.boolean(A=antenna,B=padding_overlap,operation='not', layer=layer,layer1=layer,layer2=layer1)
 
     sca = gf.Component()
 
@@ -68,6 +72,7 @@ def chip(width: float = 6000,
          version_nb: str = 'V_001',
          cp_nb: str = 'CP_000',
          text_size: float = 150,
+         single_sq_mkr: bool = False,
          ) -> gf.Component:
     
     out = gf.components.rectangle(size=(width,height),centered=True,layer=layer)
@@ -75,7 +80,10 @@ def chip(width: float = 6000,
 
     border = gf.boolean(A=out,B=inn,operation='-',layer=layer)
 
-    marker_margin = 440+100
+    if not single_sq_mkr:
+        marker_margin = 440+100
+    else:
+        marker_margin = 440/2+100
     txt_margin = 50
 
     grp_name = gf.components.text(text=grp_name,size=text_size,position=(-(width/2)+border_thick+txt_margin+marker_margin,-(height/2)+border_thick+txt_margin),layer=layer)
@@ -88,7 +96,7 @@ def chip(width: float = 6000,
     outline << border
     for text in [grp_name,chip_name,version_nb,cp_nb]: outline << text 
 
-    marker = maker_double_square(layer=layer)
+    marker = maker_double_square(layer=layer,single_sq=single_sq_mkr)
     outline.add_ref(marker).move((-(width/2)+border_thick+marker_margin/2,-(height/2)+border_thick+marker_margin/2))
     outline.add_ref(marker).move((-(width/2)+border_thick+marker_margin/2,(height/2)-border_thick-marker_margin/2))
     outline.add_ref(marker).move(((width/2)-border_thick-marker_margin/2,(height/2)-border_thick-marker_margin/2))
@@ -115,7 +123,7 @@ def sub_text(component: ComponentSpec = "pad",
     return c
 
 @gf.cell(check_instances=False)
-def maker_double_square(layer: tuple = (7,0), core_size: float = 20) -> gf.Component:
+def maker_double_square(layer: tuple = (7,0), core_size: float = 20, single_sq: bool = False) -> gf.Component:
     c = gf.Component()
 
     core = gf.components.rectangle(size=(core_size,core_size),centered=True,layer=layer)
@@ -123,13 +131,13 @@ def maker_double_square(layer: tuple = (7,0), core_size: float = 20) -> gf.Compo
 
     quadrant = gf.Component()
     small_corner = gf.components.L(width=20,size=(90,90),layer=layer)
-    large_corner = gf.components.L(width=40,size=(180,180),layer=layer)
-
     sc = quadrant << small_corner
     sc.move((-100,-100))
 
-    lc = quadrant << large_corner
-    lc.move((-200,-200))
+    if not single_sq:
+        large_corner = gf.components.L(width=40,size=(180,180),layer=layer)
+        lc = quadrant << large_corner
+        lc.move((-200,-200))
 
     for i in range(4): c.add_ref(quadrant).rotate(angle=90*i, center=(0,0))
 
@@ -270,13 +278,13 @@ def HBAR_coupling_single_conn(baselayer: tuple = (10,0),
                             with_text: bool = True,
                             with_etch: bool = True,
                             with_ant_padding: bool = False,
-
+                            padding_overlap: float = 1,
                             text_size: float = 50,
                             ) -> gf.Component:
     
     aluminium = gf.Component()
 
-    ant = semi_circular_antenna(radius=antenna_radius,spacing=separation,layer=layer_alu, layer1=layer_alu_padding,portwidth=portwidth,with_padding=with_ant_padding)
+    ant = semi_circular_antenna(radius=antenna_radius,spacing=separation,layer=layer_alu, layer1=layer_alu_padding,portwidth=portwidth,with_padding=with_ant_padding,padding_overlap=padding_overlap)
     a1 = aluminium.add_ref(ant.copy().rotate(90))
 
     ramplink = gf.components.taper(length=ramplink_length, width1=ramplink_width, width2=portwidth, port=None, layer=layer_alu)
@@ -294,7 +302,7 @@ def HBAR_coupling_single_conn(baselayer: tuple = (10,0),
 
     if with_etch:
         etch_A = gf.Component()
-        ae = gf.components.rectangle(size=(pad_width+2*Aetch_padding, pad_height+ramp_length+ramplink_length+Aetch_padding), centered=True, layer=layer_Aetch)
+        ae = gf.components.rectangle(size=(pad_width+1.2*Aetch_padding, pad_height+ramp_length+ramplink_length+Aetch_padding), centered=True, layer=layer_Aetch)
         ae = etch_A.add_ref(ae).movey(-(pad_height+ramp_length+ramplink_length+Aetch_padding)/2-antenna_radius-Aetch_padding/6)
 
         #Temp antenna for successfully doing the padding offset, as they need to be in the same layer for that
@@ -321,7 +329,7 @@ def HBAR_coupling_single_conn(baselayer: tuple = (10,0),
         out << etch_A
         out << etch_B
     if with_text:
-        out << gf.components.text(text='sep='+str(separation)+',size='+str(2*antenna_radius),size=text_size,position=(0,-out.dysize+0.8*antenna_radius),justify='center', layer=layer_alu)
+        out << gf.components.text(text='s='+str(separation)+',r='+str(antenna_radius),size=text_size,position=(0,-out.dysize+0.8*antenna_radius),justify='center', layer=layer_alu)
     out.move(out.center,(0,0))
 
     return out
